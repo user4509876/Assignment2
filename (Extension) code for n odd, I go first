@@ -1,0 +1,58 @@
+import numpy as np
+from itertools import combinations
+
+def odd0(n):
+    if n % 2 == 0:
+        raise ValueError("n should be odd.")
+
+    # n^2
+    x = n **2
+
+    # half 1s and half 0s
+    string = ['1'] * ((x -1) // 2) + ['0'] * ((x +1) // 2)
+
+    np.random.shuffle(string)
+
+    # get string
+    output = ''.join(string)
+
+    return output
+
+def det1(binary_string, n):
+    # Ensure the length of the binary string is a multiple of n
+    if len(binary_string) % n != 0:
+        raise ValueError("String is not a multiple of n.")
+
+    # Convert to matrix
+    matrix = np.array([list(binary_string[i:i+n]) for i in range(0, len(binary_string), n)], dtype=int)
+
+    # Calculate the determinant of the matrix
+    determinant = np.linalg.det(matrix)
+    return determinant
+
+def det2(n):
+    string = odd0(n)
+
+    num_ones = string.count('1')
+
+    combinations_indices = list(combinations(range(len(string)), num_ones))
+    x = len(string)
+    # Calculate determinants
+    det = [det1(''.join(['1' if i in comb else '0' for i in range(x)]), n) for comb in combinations_indices]
+
+    return det
+
+#input
+n = 3
+det_list = det2(n)
+
+# Print
+count0 = 0
+for determinant in det_list:
+    if determinant != 0:
+        count0 +=1
+        
+print(f"Number of possible matrices: {len(det_list)}")
+print(f"Determinants equal to 0 when I go first: {len(det_list) - count0}")
+
+
