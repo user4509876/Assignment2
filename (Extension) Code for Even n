@@ -1,0 +1,56 @@
+import numpy as np
+from itertools import combinations
+
+def even(n):
+    if n % 2 != 0:
+        raise ValueError("n should be even")
+
+    #Calculate n^2
+    x = n**2
+
+    # Get half 1s and 0s
+    string = ['1'] * (x // 2) + ['0'] * (x // 2)
+
+    # randomise string
+    np.random.shuffle(string)
+
+    output = ''.join(string)
+    return output
+
+def determinant1(string, n):
+    #check
+    if len(string) % n != 0:
+        raise ValueError("Binary string is not a multiple of n")
+
+    # Create matrix
+    x1 = len(string)
+    matrix = np.array([list(string[i:i+n]) for i in range(0, x1, n)], dtype=int)
+
+    # det calculation
+    det1 = np.linalg.det(matrix)
+    return det1
+
+def determinant2(n):
+    # Generate the binary string
+    string = even(n)
+
+    num_ones = string.count('1')
+
+    combinations_indices = list(combinations(range(len(string)), num_ones))
+
+    # Calculate determinants 
+    det2 = [calculate_matrix_determinant(''.join(['1' if i in comb else '0' for i in range(len(string))]), n) for comb in combinations_indices]
+    return det2
+
+#input n
+n=4
+det_list = determinant2(n)
+
+# Print outputs
+countx = 0
+for determinant in det_list:
+    if determinant != 0:
+        countx +=1
+
+print(f"Number of possible matrices: {len(determinants_list)}")
+print(f"Determinants equal to 0: {len(determinants_list) - countx}")
