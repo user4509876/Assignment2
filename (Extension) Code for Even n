@@ -39,7 +39,7 @@ def determinant2(n):
     combinations_indices = list(combinations(range(len(string)), num_ones))
 
     # Calculate determinants 
-    det2 = [calculate_matrix_determinant(''.join(['1' if i in comb else '0' for i in range(len(string))]), n) for comb in combinations_indices]
+    det2 = [determinant1(''.join(['1' if i in comb else '0' for i in range(len(string))]), n) for comb in combinations_indices]
     return det2
 
 #input n
@@ -52,5 +52,5 @@ for determinant in det_list:
     if determinant != 0:
         countx +=1
 
-print(f"Number of possible matrices: {len(determinants_list)}")
-print(f"Determinants equal to 0: {len(determinants_list) - countx}")
+print(f"Number of possible matrices: {len(det_list)}")
+print(f"Determinants equal to 0: {len(det_list) - countx}")
